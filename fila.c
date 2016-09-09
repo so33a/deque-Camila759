@@ -16,16 +16,16 @@ link novoNo(int item, link next) {
 
 FILA novaFila() {
   FILA f = malloc(sizeof *f);
-  f->maisNovo = f->maisAntigo = NULL;
+  f->direita = f->esquerda = NULL;
   return f;
 }
 
 void inserir(FILA f, int e) {
-  if(f->maisAntigo == NULL) {
-    f->maisAntigo = f->maisNovo = novoNo(e, NULL);
+  if(f->esquerda == NULL) {
+    f->esquerda = f->direita = novoNo(e, NULL);
   } else {
-    f->maisNovo->next = novoNo(e, NULL);
-    f->maisNovo = f->maisNovo->next;
+    f->direita->next = novoNo(e, NULL);
+    f->direita = f->direita->next;
   }
 }
 
@@ -37,22 +37,22 @@ int remover(FILA f){
     return 0;
   }
   
-  x = f->maisAntigo->item;
-  t = f->maisAntigo;
-  f->maisAntigo = f->maisAntigo->next;
+  x = f->esquerda->item;
+  t = f->esquerda;
+  f->esquerda = f->esquerda->next;
  
-  if(f->maisAntigo == NULL)
-    f->maisNovo = NULL;
+  if(f->esquerda == NULL)
+    f->direita = NULL;
 
   free(t);
   return x;
 }
 int filaVazia(FILA f) {
-  return ((f->maisNovo == NULL) || (f->maisAntigo == NULL));
+  return ((f->direita == NULL) || (f->esquerda == NULL));
 }
 void imprimirFila(FILA f) {
   link t;
-  for(t = f->maisAntigo; t != NULL; t = t->next) 
+  for(t = f->esquerda; t != NULL; t = t->next) 
     printf ("%d ", t->item);
   printf ("\n");
 }
